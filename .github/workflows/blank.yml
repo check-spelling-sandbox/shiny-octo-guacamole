@@ -12,7 +12,7 @@ jobs:
           sudo apt-get update
       - name: list all
         run: |
-          sudo apt-cache search . > ~/github.full.list
+          sudo apt-cache search . > github.full.list
       - name: try just ubuntu
         run: |
           sudo mv /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/microsoft-prod.list.0
@@ -23,7 +23,7 @@ jobs:
           sudo apt-get update
       - name: list ubuntu
         run: |
-          sudo apt-cache search . > ~/ubuntu.full.list
+          sudo apt-cache search . > ubuntu.full.list
       - name: try just microsoft
         run: |
           sudo mv /etc/apt/sources.list.d/microsoft-prod.list.0 /etc/apt/sources.list.d/microsoft-prod.list
@@ -34,7 +34,7 @@ jobs:
           sudo apt-get update
       - name: list microsoft
         run: |
-          sudo apt-cache search . > ~/microsoft.base.list
+          sudo apt-cache search . > microsoft.base.list
       - name: try just azure
         run: |
           sudo mv /etc/apt/sources.list.d/azure-cli.sources.0 /etc/apt/sources.list.d/azure-cli.sources
@@ -45,7 +45,7 @@ jobs:
           sudo apt-get update
       - name: list azure
         run: |
-          sudo apt-cache search . > ~/azure.base.list
+          sudo apt-cache search . > azure.base.list
       - name: try just ubuntu main
         run: |
           sudo mv /etc/apt/sources.list.d/azure-cli.sources /etc/apt/sources.list.d/azure-cli.sources.0
@@ -56,7 +56,7 @@ jobs:
           sudo apt-get update
       - name: list ubuntu main
         run: |
-          sudo apt-cache search . > ~/ubuntu.main.list
+          sudo apt-cache search . > ubuntu.main.list
       - name: upload lists
         uses: actions/upload-artifact@v4
         with:
