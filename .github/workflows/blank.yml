@@ -9,4 +9,4 @@ jobs:
     steps:
       - 
         run: |
-          find /etc/apt/sources.list* -type f|xargs cat
+          find /etc/apt/sources.list* -type f|xargs grep .
