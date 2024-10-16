@@ -7,6 +7,59 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - 
+      - name: normal update
         run: |
-          find /etc/apt/sources.list* -type f|xargs grep .
+          apt-get update
+      - name: list all
+        run: |
+          apt-cache search . > ~/github.full.list
+      - name: try just ubuntu
+        run: |
+          mv /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/microsoft-prod.list.0
+          mv /etc/apt/sources.list.d/azure-cli.sources /etc/apt/sources.list.d/azure-cli.sources.0
+          apt-get clean
+      - name: update ubuntu
+        run: |
+          apt-get update
+      - name: list ubuntu
+        run: |
+          apt-cache search . > ~/ubuntu.full.list
+      - name: try just microsoft
+        run: |
+          mv /etc/apt/sources.list.d/microsoft-prod.list.0 /etc/apt/sources.list.d/microsoft-prod.list
+          mv /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.0
+          apt-get clean
+      - name: update microsoft
+        run: |
+          apt-get update
+      - name: list microsoft
+        run: |
+          apt-cache search . > ~/microsoft.base.list
+      - name: try just azure
+        run: |
+          mv /etc/apt/sources.list.d/azure-cli.sources.0 /etc/apt/sources.list.d/azure-cli.sources
+          mv /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/microsoft-prod.list.0
+          apt-get clean
+      - name: update azure
+        run: |
+          apt-get update
+      - name: list azure
+        run: |
+          apt-cache search . > ~/azure.base.list
+      - name: try just ubuntu main
+        run: |
+          mv /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/microsoft-prod.list.0
+          mv /etc/apt/sources.list.d/azure-cli.sources /etc/apt/sources.list.d/azure-cli.sources.0
+          perl -pe 's/Components: main universe restricted multiverse/Components: main/' /etc/apt/sources.list.d/ubuntu.sources.0 > /etc/apt/sources.list.d/ubuntu.sources
+          apt-get clean
+      - name: update ubuntu
+        run: |
+          apt-get update
+      - name: list ubuntu main
+        run: |
+          apt-cache search . > ~/ubuntu.main.list
+      - name: upload lists
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: .
