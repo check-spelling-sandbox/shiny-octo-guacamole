@@ -7,18 +7,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: try just ubuntu main universe
+      - name: try just ubuntu main universe (no updates/backports)
         run: |
           sudo mv /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/microsoft-prod.list.0
           sudo mv /etc/apt/sources.list.d/azure-cli.sources /etc/apt/sources.list.d/azure-cli.sources.0
-          sudo perl -pi -e 's/Components: main universe restricted multiverse/Components: main universe/' /etc/apt/sources.list.d/ubuntu.sources
+          sudo perl -pi -e '
+            s/Components: main universe restricted multiverse/Components: main universe/;
+            if (/Suites:/) { s/\w+-(?:updates|backports)//g; }
+          ' /etc/apt/sources.list.d/ubuntu.sources
           sudo apt-get clean
-      - name: update ubuntu main+universe
+      - name: update ubuntu main+universe (no updates/backports)
         run: |
           sudo apt-get update
       - name: list ubuntu main+universe
         run: |
-          sudo apt-cache search . > ubuntu.main-universe.list
+          sudo apt-cache search . > ubuntu.main-universe-no-updates.list
       - name: upload lists
         uses: actions/upload-artifact@v4
         with:
