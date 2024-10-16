@@ -48,7 +48,6 @@ jobs:
           sudo apt-cache search . > ~/azure.base.list
       - name: try just ubuntu main
         run: |
-          sudo mv /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/microsoft-prod.list.0
           sudo mv /etc/apt/sources.list.d/azure-cli.sources /etc/apt/sources.list.d/azure-cli.sources.0
           perl -pe 's/Components: main universe restricted multiverse/Components: main/' /etc/apt/sources.list.d/ubuntu.sources.0 | sudo tee /etc/apt/sources.list.d/ubuntu.sources > /dev/null
           sudo apt-get clean
